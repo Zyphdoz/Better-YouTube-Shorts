@@ -1,0 +1,25 @@
+{
+    "name": "Better YouTube Shorts",
+    "version": "0.0.1",
+    "description": "Play YouTube Shorts in the standard YouTube video player.",
+    "manifest_version": 3,
+    "author": "ZyphDoz",
+     "icons": {
+        "256": "icon.png"
+    },
+    "action":{
+        "default_title": "Better YouTube Shorts"
+    },
+    "permissions": ["activeTab", "tabs", "webNavigation", "scripting"],
+    "host_permissions": ["https://www.youtube.com/"],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+    {
+      "matches": ["https://*.youtube.com/shorts/*"],
+      "all_frames": true,
+      "js": ["redirect.js"]
+    }
+  ]
+}
