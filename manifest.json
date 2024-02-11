@@ -19,7 +19,7 @@
     {
       "matches": ["https://*.youtube.com/shorts/*"],
       "all_frames": true,
-      "js": ["redirect.js"]
+      "js": ["redirect.js", "addMissingChannelNames.js"]
     }
   ]
 }
