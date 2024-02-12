@@ -3,7 +3,7 @@ setTimeout(redirectIfYouTubeShorts, 100);
 function redirectIfYouTubeShorts() {
     url.current = window.location.href;
     if (url.isYouTubeShorts()){
-        url.replaceShortsWithV();
+        url.replaceShortsWithWatch();
         url.redirect();
     } else {
         setTimeout(redirectIfYouTubeShorts, 100)
@@ -14,8 +14,8 @@ let url = {
     current: window.location.href,
     redirectedHref: '',
 
-    replaceShortsWithV() {
-        this.redirectedHref = this.current.replace('youtube.com/shorts/', 'youtube.com/v/');
+    replaceShortsWithWatch() {
+        this.redirectedHref = this.current.replace('youtube.com/shorts/', 'youtube.com/watch?v=');
     },
 
     redirect() {
