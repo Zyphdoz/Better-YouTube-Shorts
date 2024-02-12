@@ -6,7 +6,7 @@ function redirectIfYouTubeShorts() {
         url.replaceShortsWithWatch();
         url.redirect();
     } else {
-        setTimeout(redirectIfYouTubeShorts, 100)
+        setTimeout(redirectIfYouTubeShorts, 100);
     }
 }
 

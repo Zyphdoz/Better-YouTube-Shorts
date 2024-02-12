@@ -1,4 +1,11 @@
-setInterval(attemptToAddChannelNamesToVideos, 100);
+setInterval(pollForShorts, 100);
+
+function pollForShorts() {
+    if (shorts.exist()) {
+        shorts.getUrls();
+        shorts.addMissingChannelNames();
+    }
+}
 
 let shorts = {
     url: document.querySelectorAll('a[href^="/shorts/"]'),
@@ -20,8 +27,24 @@ let shorts = {
         return !url.querySelector('#channel-name') && !this.requestedChannelName.includes(url);
     },
 
-    dontFetchForThisUrlAgain(url) {
+    dontFetchThisUrlAgain(url) {
         this.requestedChannelName.push(url);
+    },
+
+    addMissingChannelNames() {
+        for (let i = 0; i < shorts.url.length; i++) {
+            const url = shorts.url[i];
+            if (shorts.hasTitle(url) && shorts.isMissingChannelName(url)) {
+                shorts.dontFetchThisUrlAgain(url);
+                shorts.fetchChannelName(url)
+                .then(channelName => {
+                    shorts.appendChannelName(url, channelName);
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+            }
+        }
     },
 
     appendChannelName(link, channelName) {
@@ -44,23 +67,4 @@ let shorts = {
         }
     },
     
-}
-
-function attemptToAddChannelNamesToVideos() {
-    if (shorts.exist()) {
-        shorts.getUrls();
-        for (let i = 0; i < shorts.url.length; i++) {
-            const url = shorts.url[i];
-            if (shorts.hasTitle(url) && shorts.isMissingChannelName(url)) {
-                shorts.dontFetchForThisUrlAgain(url);
-                shorts.fetchChannelName(url)
-                .then(channelName => {
-                    shorts.appendChannelName(url, channelName);
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
-            }
-        }
-    }
 }
